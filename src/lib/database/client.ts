@@ -33,6 +33,13 @@ let _prisma: PrismaClient | undefined;
 
 export const prisma = new Proxy({} as PrismaClient, {
   get(_target, prop, receiver) {
+    if (
+      typeof prop === "symbol" ||
+      ["then", "__esModule", "$$typeof", "constructor", "prototype"].includes(prop as string)
+    ) {
+      return Reflect.get(_target, prop, receiver);
+    }
+
     if (!_prisma) {
       _prisma = globalForPrisma.atelierFinancePrisma ?? createPrismaClient();
       if (process.env.NODE_ENV !== "production") {
