@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 import { apiError, apiInternalError, apiSuccess } from "@/lib/api/response";
 import { getCompanyByTicker } from "@/lib/database";
 
