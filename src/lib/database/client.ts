@@ -1,4 +1,3 @@
-import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 import { PrismaClient } from "../../generated/prisma/client";
 
 const globalForPrisma = globalThis as unknown as {
@@ -16,6 +15,10 @@ const createPrismaClient = (): PrismaClient => {
     throw new Error("Phase 29F.1 Prisma runtime supports local SQLite file: DATABASE_URL only.");
   }
 
+  // Defer import of the adapter and better-sqlite3 to avoid crashing Next.js module evaluation
+  // during Vercel builds where native bindings might fail or DATABASE_URL is missing.
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { PrismaBetterSqlite3 } = require("@prisma/adapter-better-sqlite3");
   const adapter = new PrismaBetterSqlite3({ url: databaseUrl });
   return new PrismaClient({ adapter });
 };
