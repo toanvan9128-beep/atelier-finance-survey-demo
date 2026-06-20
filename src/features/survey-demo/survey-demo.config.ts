@@ -14,7 +14,7 @@ export const surveyDemoIntro = {
   title: "Atelier Finance Survey Demo Mode",
   kicker: "Survey Form 2 evaluation",
   description:
-    "A limited, read-only path through selected Atelier Finance modules for short post-experience user evaluation.",
+    "A limited, read-only path through selected Atelier Finance modules for short post-experience user evaluation. You only need to view the selected representative modules for this evaluation; you do not need to evaluate the entire system.",
   limitation:
     "Survey Demo Mode represents selected functions for initial user perception. It does not replace long-term usability testing or a full production evaluation.",
 };

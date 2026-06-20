@@ -112,5 +112,19 @@ export const navigationItems: NavigationItem[] = [
     icon: "▧",
     href: "/workspace?module=watchlist",
     group: "Thực hành & quyết định",
-  },
 ];
+
+export const surveyAllowedModules = new Set([
+  "overview",
+  "financials",
+  "risk",
+  "checklist",
+]);
+
+export function getNavigationItems(isSurveyMode: boolean): NavigationItem[] {
+  if (!isSurveyMode) {
+    return navigationItems;
+  }
+  return navigationItems.filter((item) => surveyAllowedModules.has(item.key));
+}
+

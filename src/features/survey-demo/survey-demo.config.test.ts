@@ -49,3 +49,25 @@ describe("survey demo configuration", () => {
     }
   });
 });
+
+import { getNavigationItems, surveyAllowedModules } from "@/config/navigation.config";
+
+describe("survey mode navigation", () => {
+  it("returns all modules when survey mode is inactive", () => {
+    const items = getNavigationItems(false);
+    // Should have more than just the survey modules
+    expect(items.length).toBeGreaterThan(surveyAllowedModules.size);
+    // Check if a known non-survey module is present
+    expect(items.find((i) => i.key === "screening")).toBeDefined();
+  });
+
+  it("filters non-survey modules when survey mode is active", () => {
+    const items = getNavigationItems(true);
+    expect(items.length).toBe(surveyAllowedModules.size);
+    expect(items.find((i) => i.key === "screening")).toBeUndefined();
+    
+    for (const item of items) {
+      expect(surveyAllowedModules.has(item.key)).toBe(true);
+    }
+  });
+});

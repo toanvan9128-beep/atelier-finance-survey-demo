@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 import { apiError, apiInternalError, apiSuccess } from "@/lib/api/response";
 import { persistManualImport, type PersistManualImportInput } from "@/lib/database";
 import type { RawSourceRecord } from "@/lib/data-sources/types";
@@ -106,3 +109,4 @@ export const POST = async (request: Request): Promise<Response> => {
     return apiInternalError();
   }
 };
+

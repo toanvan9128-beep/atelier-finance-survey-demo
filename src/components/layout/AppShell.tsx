@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useSyncExternalStore } from "react";
-import { navigationItems } from "@/config/navigation.config";
+import { navigationItems, getNavigationItems } from "@/config/navigation.config";
 import { shellConfig } from "@/config/shell.config";
 import { SurveyModeBanner } from "@/components/layout/SurveyModeBanner";
 import { BusinessPage } from "@/features/business";
@@ -55,9 +55,18 @@ export function AppShell() {
 
 function AppShellContent() {
   const { openDrawer } = usePersonalAnalysisProfile();
+  const isSurveyMode =
+    typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).get("survey") === "1";
+
+  const currentNavigationItems = useMemo(
+    () => getNavigationItems(isSurveyMode),
+    [isSurveyMode]
+  );
+
   const moduleKeys = useMemo(
-    () => new Set(navigationItems.map((item) => item.key)),
-    []
+    () => new Set(currentNavigationItems.map((item) => item.key)),
+    [currentNavigationItems]
   );
   const moduleFromUrl = useSyncExternalStore(
     (callback) => {
@@ -80,9 +89,6 @@ function AppShellContent() {
     () => null
   );
   const activeModule = resolveActiveModule(moduleFromUrl, moduleKeys, shellConfig.defaultModuleKey);
-  const isSurveyMode =
-    typeof window !== "undefined" &&
-    new URLSearchParams(window.location.search).get("survey") === "1";
 
   useEffect(() => {
     if (!shouldNormalizeInvalidModule(moduleFromUrl, moduleKeys)) {
@@ -114,9 +120,9 @@ function AppShellContent() {
 
   const activeItem = useMemo(
     () =>
-      navigationItems.find((item) => item.key === activeModule) ??
-      navigationItems[0],
-    [activeModule]
+      currentNavigationItems.find((item) => item.key === activeModule) ??
+      currentNavigationItems[0],
+    [activeModule, currentNavigationItems]
   );
   const activeJourney =
     shellConfig.moduleJourney[
@@ -140,7 +146,7 @@ function AppShellContent() {
       <Sidebar
         activeKey={activeModule}
         description={shellConfig.journey.description}
-        items={navigationItems}
+        items={currentNavigationItems}
         kicker={shellConfig.journey.kicker}
         onNavigate={handleNavigate}
       />
@@ -182,7 +188,7 @@ function AppShellContent() {
         onNavigate={handleNavigate}
       />
       <MobileNavigation
-        items={navigationItems}
+        items={currentNavigationItems}
         activeKey={activeModule}
         onNavigate={handleNavigate}
       />

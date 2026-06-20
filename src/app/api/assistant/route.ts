@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
+
 import { runAssistant } from "../../../lib/ai-rag/assistant";
 import { resolveAssistantProvider } from "../../../lib/ai-rag/providers";
 import type { AssistantProvider } from "../../../lib/ai-rag/providers";
@@ -111,3 +114,4 @@ export const createAssistantPostHandler =
   };
 
 export const POST = createAssistantPostHandler();
+

@@ -40,7 +40,7 @@ When `survey=1` is present, the workspace shows a persistent Survey Demo Mode ba
 
 ## Modules Not Required
 
-The survey flow intentionally does not require every product module. Macro, industry, screening, business, valuation, technical, simulation, watchlist, learning, and route configuration remain available in the product but are not required for Survey Form 2.
+The survey flow intentionally does not require every product module. Macro, industry, screening, business, valuation, technical, simulation, watchlist, learning, and route configuration remain available in the normal product but are hidden/disabled when Survey Demo Mode (`survey=1`) is active. They are not required for Survey Form 2.
 
 The AI assistant panel is optional. Respondents may observe its explanation style and safety behavior if it is stable in the current environment, but it is not a required survey step.
 
