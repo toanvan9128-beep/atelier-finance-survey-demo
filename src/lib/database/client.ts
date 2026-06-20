@@ -31,23 +31,42 @@ const createPrismaClient = (): PrismaClient => {
  */
 let _prisma: PrismaClient | undefined;
 
-export const prisma = new Proxy({} as PrismaClient, {
-  get(_target, prop, receiver) {
-    if (
-      typeof prop === "symbol" ||
-      ["then", "__esModule", "$$typeof", "constructor", "prototype"].includes(prop as string)
-    ) {
-      return Reflect.get(_target, prop, receiver);
+export const getPrisma = (): PrismaClient => {
+  if (!_prisma) {
+    _prisma = globalForPrisma.atelierFinancePrisma ?? createPrismaClient();
+    if (process.env.NODE_ENV !== "production") {
+      globalForPrisma.atelierFinancePrisma = _prisma;
     }
+  }
+  return _prisma;
+};
 
-    if (!_prisma) {
-      _prisma = globalForPrisma.atelierFinancePrisma ?? createPrismaClient();
-      if (process.env.NODE_ENV !== "production") {
-        globalForPrisma.atelierFinancePrisma = _prisma;
-      }
-    }
-    return Reflect.get(_prisma, prop, receiver);
-  },
-});
+// Instead of a Proxy which can be triggered by bundlers checking internal properties
+// (like `then`, `__esModule`, `default`, etc.), we explicitly define getters only for
+// the properties that Prisma exposes.
+export const prisma = {
+  get user() { return getPrisma().user; },
+  get company() { return getPrisma().company; },
+  get financialStatement() { return getPrisma().financialStatement; },
+  get marketPrice() { return getPrisma().marketPrice; },
+  get dataSource() { return getPrisma().dataSource; },
+  get sourceEvidence() { return getPrisma().sourceEvidence; },
+  get dataQualityReport() { return getPrisma().dataQualityReport; },
+  get manualImportSession() { return getPrisma().manualImportSession; },
+  get manualImportRecord() { return getPrisma().manualImportRecord; },
+  get watchlist() { return getPrisma().watchlist; },
+  get paperTrade() { return getPrisma().paperTrade; },
+  get assistantInteraction() { return getPrisma().assistantInteraction; },
+  get $connect() { return getPrisma().$connect; },
+  get $disconnect() { return getPrisma().$disconnect; },
+  get $on() { return getPrisma().$on; },
+  get $transaction() { return getPrisma().$transaction; },
+  get $use() { return getPrisma().$use; },
+  get $extends() { return getPrisma().$extends; },
+  get $executeRaw() { return getPrisma().$executeRaw; },
+  get $queryRaw() { return getPrisma().$queryRaw; },
+  get $executeRawUnsafe() { return getPrisma().$executeRawUnsafe; },
+  get $queryRawUnsafe() { return getPrisma().$queryRawUnsafe; },
+} as unknown as PrismaClient;
 
 export type DatabaseClient = PrismaClient;
