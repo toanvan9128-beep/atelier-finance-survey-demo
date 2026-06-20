@@ -112,6 +112,7 @@ export const navigationItems: NavigationItem[] = [
     icon: "▧",
     href: "/workspace?module=watchlist",
     group: "Thực hành & quyết định",
+  },
 ];
 
 export const surveyAllowedModules = new Set([

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useSyncExternalStore } from "react";
-import { navigationItems, getNavigationItems } from "@/config/navigation.config";
+import { getNavigationItems } from "@/config/navigation.config";
 import { shellConfig } from "@/config/shell.config";
 import { SurveyModeBanner } from "@/components/layout/SurveyModeBanner";
 import { BusinessPage } from "@/features/business";

@@ -59,6 +59,7 @@ export const prisma = {
   get assistantInteraction() { return getPrisma().assistantInteraction; },
   get $connect() { return getPrisma().$connect; },
   get $disconnect() { return getPrisma().$disconnect; },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   get $on() { return (getPrisma() as any).$on; },
   get $transaction() { return getPrisma().$transaction; },
   get $extends() { return getPrisma().$extends; },
